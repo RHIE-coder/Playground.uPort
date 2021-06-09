@@ -26,6 +26,7 @@
   "scripts": {
     "id:list": "ts-node ./src/list-identifiers",
     "id:create": "ts-node ./src/create-identifier",
-    "id:resolve": "ts-node ./src/resolver"
+    "id:resolve": "ts-node ./src/resolver",
+    "vc:create": "ts-node ./src/create-credential"
   }
 }
