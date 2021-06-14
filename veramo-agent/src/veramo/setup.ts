@@ -33,7 +33,6 @@ import { CredentialIssuer, ICredentialIssuer } from '@veramo/credential-w3c'
 // 프로젝트 ID 보호
 import path from 'path'
 import dotenv from 'dotenv'
-import { resolve } from 'path/posix'
 
 
 dotenv.config({ path: path.join(__dirname, '../../.env') })

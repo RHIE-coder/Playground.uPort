@@ -27,6 +27,7 @@
     "id:list": "ts-node ./src/list-identifiers",
     "id:create": "ts-node ./src/create-identifier",
     "id:resolve": "ts-node ./src/resolver",
+    "id:srv": "ts-node ./src/add-service",
     "vc:create": "ts-node ./src/create-credential"
   }
 }

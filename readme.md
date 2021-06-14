@@ -460,3 +460,19 @@ yarn id:resolve
 ```cmd
 yarn vc:create
 ```
+
+# 관련 용어 정리
+
+```
+  /**
+   * Creates an EthrDidController instance.
+   *
+   * @param identifier - required - a `did:ethr` string or a publicKeyHex or an ethereum address
+   * @param signer - optional - a Signer that represents the current controller key (owner) of the identifier. If a 'signer' is not provided, then a 'contract' with an attached signer can be used.
+   * @param contract - optional - a Contract instance representing a ERC1056 contract. At least one of `contract`, `provider`, or `rpcUrl` is required
+   * @param chainNameOrId - optional - the network name or chainID, defaults to 'mainnet'
+   * @param provider - optional - a web3 Provider. At least one of `contract`, `provider`, or `rpcUrl` is required
+   * @param rpcUrl - optional - a JSON-RPC URL that can be used to connect to an ethereum network. At least one of `contract`, `provider`, or `rpcUrl` is required
+   * @param registry - optional - The ERC1056 registry address. Defaults to '0xdca7ef03e98e0dc2b855be647c39abe984fcf21b'. Only used with 'provider' or 'rpcUrl'
+   */
+```
