@@ -127,3 +127,91 @@ infura.io에서 이더리움 2.0 프로젝트 지원이 보인다. 이더리움 
 credential과 presentation은 어떻게?
 
  --> 완료
+
+# 중대한 에러 DID Document에 services 추가
+
+veramo.io의 API 및 Plugins 가이드에 따라 진행
+
+```ts
+import { agent } from './veramo/setup'
+
+async function main() {
+  const option = {
+    did: "did:ethr:rinkeby:0x03ba1cf1fa7ebb6ea862ee2104423d3aa790e59e4d61dd487ea088108fca1a5dfa",
+    service:{
+        description: "alummi",
+        id: "did:ethr:rinkeby:0x03ba1cf1fa7ebb6ea862ee2104423d3aa790e59e4d61dd487ea088108fca1a5dfa#prove",
+        type: "prove",
+        serviceEndpoint:"www.example.com"
+    }
+  }
+  const identity = await agent.didManagerAddService(option);
+  console.log(`New identity created`)
+  console.log(identity)
+}
+
+main().catch(err=>{
+    console.log("---fail---")
+    console.log(err);
+});
+```
+
+ - 에러 내용
+
+```
+Error: invalid signer or provider (argument="signerOrProvider", value={"options":{},"timeout":0,"provider":{"host":"https://rinkeby.infura.io/v3/[본 항목은 비공개]","timeout":0},"rpc":{"options":{"jsonSpace":0,"max":9999999999999},"idCounter":1169372751410,"currentProvider":{"host":"https://rinkeby.infura.io/v3/[본 항목은 비공개]","timeout":0}}}, code=INVALID_ARGUMENT, version=contracts/5.2.0)
+    at Logger.makeError (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\logger\src.ts\index.ts:213:28)
+    at Logger.throwError (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\logger\src.ts\index.ts:225:20)
+    at Logger.throwArgumentError (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\logger\src.ts\index.ts:229:21)
+    at Contract.BaseContract (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\contracts\src.ts\index.ts:633:20)
+    at new Contract (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\contracts\lib\index.js:1017:42)
+    at Contract.fromSolidity [as connect] (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@ethersproject\contracts\src.ts\index.ts:841:26)
+    at P (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\ethr-did\node_modules\ethr-did-resolver\src\configuration.ts:68:46)
+    at new K (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\ethr-did\node_modules\ethr-did-resolver\src\controller.ts:46:23)
+    at new o (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\ethr-did\src\index.ts:64:25)
+    at EthrDIDProvider.<anonymous> (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@veramo\did-provider-ethr\src\ethr-did-provider.ts:124:21)
+```
+
+stacktrace를 따라서 모든 소스코드 분석을 해보아도 무엇이 문제인지 모르겠음.
+
+그래서 did나 id 프로퍼티의 서식이 잘못되었나 싶어서 일부로 DID를 틀리게적어 요청해봄
+
+```ts
+import { agent } from './veramo/setup'
+
+async function main() {
+  const option = {
+    // did: "did:ethr:rinkeby:0x03ba1cf1fa7ebb6ea862ee2104423d3aa790e59e4d61dd487ea088108fca1a5dfa",
+    did: "did:ethr:rinkeby:0x03ba1cf1fa7ebb6ea862ee2104423d3aa790e59e4d61dd487ea088108fca1a", //틀리게 적음
+    service:{
+        description: "alummi",
+        id: "did:ethr:rinkeby:0x03ba1cf1fa7ebb6ea862ee2104423d3aa790e59e4d61dd487ea088108fca1a5dfa#prove",
+        type: "prove",
+        serviceEndpoint:"www.example.com"
+    }
+  }
+  const identity = await agent.didManagerAddService(option);
+  console.log(`New identity created`)
+  console.log(identity)
+}
+
+main().catch(err=>{
+    console.log("---fail---")
+    console.log(err);
+});
+```
+
+ - 에러 내용
+
+```
+Error: Identifier not found
+    at DIDStore.<anonymous> (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@veramo\data-store\src\identifier\did-store.ts:39:28)
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\quoti\Desktop\LocalRepo\__PROGRAMMING__\CodeCloud\UPort\veramo-agent\node_modules\@veramo\data-store\build\identifier\did-store.js:5:58)
+```
+
+즉, 존재한 DID로 인식했고 그 뒤에 에러가 난것으로 예상된다.
+
+Veramo에서 아직 구현을 덜한 것으로 추측. 
+
+왜냐 하면, 잘 실행되는 다른 API와 다르게 해당 API에 Description 및 예제 코드가 존재하지 않는다.

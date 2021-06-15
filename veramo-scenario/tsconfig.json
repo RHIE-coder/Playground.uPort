@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "module": "CommonJS",
+    "strict": true,
+    "target": "es6",
+    "rootDir": "./",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "downlevelIteration": true
+  }
+}

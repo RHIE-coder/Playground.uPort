@@ -30,12 +30,11 @@ import { createConnection } from 'typeorm'
 
 import { CredentialIssuer, ICredentialIssuer } from '@veramo/credential-w3c'
 
-// 프로젝트 ID 보호
+// to protect the project id
 import path from 'path'
 import dotenv from 'dotenv'
 
-
-dotenv.config({ path: path.join(__dirname, '../../.env') })
+dotenv.config({ path: path.join(__dirname, '../../../../.env') })
 
 // This will be the name for the local sqlite database for demo purposes
 const DATABASE_FILE = 'database.sqlite'
@@ -51,6 +50,7 @@ const dbConnection = createConnection({
   entities: Entities,
 })
 
+//***future work : need monitoring documentation***// 
 class SecretBox extends AbstractSecretBox{
   encrypt(message: string): Promise<string> {
     throw new Error('Method not implemented.')
@@ -79,7 +79,10 @@ export const agent = createAgent<IDIDManager & IKeyManager & IDataStore & IDataS
           defaultKms: 'local',
           network: 'rinkeby',
           rpcUrl: 'https://rinkeby.infura.io/v3/' + INFURA_PROJECT_ID,
-        })
+        }),
+        'did:web': new WebDIDProvider({
+          defaultKms: 'local',
+        }),
       },
     }),
     new DIDResolverPlugin({

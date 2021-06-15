@@ -20,14 +20,18 @@
     "@veramo/kms-local": "^1.2.0",
     "dotenv": "^10.0.0",
     "ethr-did-resolver": "^4.3.3",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.9",
+    "mongoose": "^5.12.13",
+    "multer": "^1.4.2",
+    "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
     "web-did-resolver": "^2.0.4"
   },
   "scripts": {
-    "id:list": "ts-node ./src/list-identifiers",
-    "id:create": "ts-node ./src/create-identifier",
-    "id:resolve": "ts-node ./src/resolver",
-    "id:srv": "ts-node ./src/add-service",
-    "vc:create": "ts-node ./src/create-credential"
+    "id:list": "ts-node ./src/ethr-registry-api/test-samples/list-identifiers",
+    "id:create": "ts-node ./src/ethr-registry-api/test-samples/create-identifier",
+    "id:resolve": "ts-node ./src/ethr-registry-api/test-samples/resolver",
+    "vc:create": "ts-node ./src/ethr-registry-api/test-samples/create-credential"
   }
 }
