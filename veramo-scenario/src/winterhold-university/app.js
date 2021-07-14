@@ -2,6 +2,17 @@ const { createConnection } = require("typeorm");
 
 const agentProvider = require("../ethr-registry-lib/agentProvider");
 
+const StudentDidInfo = require("./entities/StudentDidInfo");
+
+// agentProvider.getAgent("issuer-local-db.sqlite").then(agent=>{
+//     const identity = agent.didManagerCreate()
+//     console.log(`New identity created`)
+//     console.log(identity)
+//     return dbConnection
+// }).then(dbConnection => {
+//     console.log(dbConnection.getRepository())
+// })
+
 const dbConnection = createConnection({
     type: 'sqlite',
     database: "issuer-local-db.sqlite",
@@ -10,12 +21,49 @@ const dbConnection = createConnection({
     entities: [...agentProvider.Entities],
 });
 
-dbConnection.then((connection)=>{
-    return connection.getRepository("Identifier")
-    // return connection.getRepository("Key")
-}).then(repo=>{
-    return repo.find();
-}).then(console.log);
+// dbConnection.then((connection)=>{
+//     return connection.getRepository("Identifier")
+//     // return connection.getRepository("Key")
+// }).then(repo=>{
+//     return repo.find();
+// }).then(console.log);
+
+
+
+async function main(){
+    await agentProvider.setupDB("issuer-local-db.sqlite", StudentDidInfo);
+    const agent = await agentProvider.getAgent();
+    const identifiers = await agent.didManagerFind();
+    console.log(`There are ${identifiers.length} identifiers`);
+    if (identifiers.length > 0) {
+        identifiers.map((id) => {
+          console.log(id)
+          console.log('..................')
+        })
+    }
+
+    const stuInfo = {
+        did : 'did:ethr:rinkeby:0x02ac02a20c94a19c905fa85b2323257262644ccc5051406c5394dca4caa99441d7',
+        studentNo : '202024600',
+        studentName : 'rhie',
+        studentPhoneNumber : '010-1234-5678'
+    }
+
+    const connection = await agentProvider.getConnection()
+    const stuRepo = connection.getRepository("StudentDidInfo")
+    stuRepo.save(stuInfo)
+    .then(function(saveStu) {
+        console.log("stuInfo has been saved: ", saveStu);
+        console.log("Now lets load all posts: ");
+
+        return stuRepo.find();
+    })
+    .then(function(allStu) {
+        console.log("All Students: ", allStu);
+    });
+}
+
+main().catch(console.log)
 
 // const express = require('express');
 // const app = express();

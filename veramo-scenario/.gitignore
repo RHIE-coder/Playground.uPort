@@ -7,4 +7,5 @@ node_modules/
 
 database.sqlite
 
+
 src/winterhold-university/issuer-local-db.sqlite

@@ -7,7 +7,7 @@ import {
   
 @Entity()
 //@ts-ignore
-export class StudentDidInfo {
+class StudentDidInfo {
     @PrimaryColumn()
     //@ts-ignore
     did: string
@@ -24,3 +24,5 @@ export class StudentDidInfo {
     //@ts-ignore
     studentPhoneNumber: string
 }
+
+module.exports = StudentDidInfo

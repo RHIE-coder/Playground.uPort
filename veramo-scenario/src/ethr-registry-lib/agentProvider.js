@@ -42,21 +42,36 @@ dotenv.config({ path: path.join(__dirname, '../../.env') })
 // You will need to get a project ID from infura https://www.infura.io
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID
 
+let dbConnection;
 
-function getAgent(database_file){
+function setupDB(database_file, extend_entity){
+    // This will be the name for the local sqlite database for demo purposes
+    const DATABASE_FILE = database_file;
+
+    if(extend_entity){
+        Entities.push(extend_entity)
+    }
+
+    console.log(Entities)
+
+    dbConnection = createConnection({
+        type: 'sqlite',
+        database: DATABASE_FILE,
+        synchronize: true,
+        logging: ['error', 'info', 'warn'],
+        entities: Entities, //[Key, Identifier, Message, Claim, Credential, Presentation, Service]
+    });
+    
+}
+
+function getConnection(){
+    return dbConnection;
+}
+
+
+function getAgent(){
 
     return new Promise((resolve,reject) => {
-        // This will be the name for the local sqlite database for demo purposes
-        const DATABASE_FILE = database_file;
-
-        const dbConnection = createConnection({
-            type: 'sqlite',
-            database: DATABASE_FILE,
-            synchronize: true,
-            logging: ['error', 'info', 'warn'],
-            entities: Entities, //[Key, Identifier, Message, Claim, Credential, Presentation, Service]
-        });
-
         
         const agent = createAgent({
             plugins: [
@@ -102,12 +117,10 @@ function getAgent(database_file){
     
 }
 
-
-
-
-
 module.exports.getAgent = getAgent;
 module.exports.Entities = Entities;
+module.exports.setupDB = setupDB;
+module.exports.getConnection = getConnection;
 
 /*****************************
  ****** server sections ******
