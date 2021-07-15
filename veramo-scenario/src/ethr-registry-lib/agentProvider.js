@@ -72,7 +72,6 @@ function getRpcUrl(){
     return 'https://rinkeby.infura.io/v3/' + INFURA_PROJECT_ID
 }
 
-
 function getAgent(){
 
     return new Promise((resolve,reject) => {

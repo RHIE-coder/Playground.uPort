@@ -1,0 +1,64 @@
+{
+  "payload": {
+    "vc": {
+      "credentialSubject": {
+        "studentNumber": "202024600",
+        "studentName": "dova",
+        "studentPhoneNumber": "010-1234-5678",
+        "status": "graduated"
+      },
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1"
+      ],
+      "type": [
+        "VerifiableCredential"
+      ]
+    },
+    "sub": "did:ethr:rinkeby:0x0381f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e",
+    "nbf": 1626330141,
+    "iss": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189"
+  },
+  "didResolutionResult": {
+    "didDocumentMetadata": {},
+    "didResolutionMetadata": {
+      "contentType": "application/did+ld+json"
+    },
+    "didDocument": {
+      "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://identity.foundation/EcdsaSecp256k1RecoverySignature2020/lds-ecdsa-secp256k1-recovery2020-0.0.jsonld"
+      ],
+      "id": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189",
+      "verificationMethod": [
+        {
+          "id": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controller",
+          "type": "EcdsaSecp256k1RecoveryMethod2020",
+          "controller": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189",
+          "blockchainAccountId": "0xF85d620C889c390edF7426B598e784E04B316536@eip155:4"
+        },
+        {
+          "id": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controllerKey",
+          "type": "EcdsaSecp256k1VerificationKey2019",
+          "controller": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189",
+          "publicKeyHex": "0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189"
+        }
+      ],
+      "authentication": [
+        "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controller",
+        "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controllerKey"
+      ],
+      "assertionMethod": [
+        "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controller",
+        "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controllerKey"
+      ]
+    }
+  },
+  "issuer": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189",
+  "signer": {
+    "id": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189#controllerKey",
+    "type": "EcdsaSecp256k1VerificationKey2019",
+    "controller": "did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189",
+    "publicKeyHex": "0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189"
+  },
+  "jwt": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJjcmVkZW50aWFsU3ViamVjdCI6eyJzdHVkZW50TnVtYmVyIjoiMjAyMDI0NjAwIiwic3R1ZGVudE5hbWUiOiJkb3ZhIiwic3R1ZGVudFBob25lTnVtYmVyIjoiMDEwLTEyMzQtNTY3OCIsInN0YXR1cyI6ImdyYWR1YXRlZCJ9LCJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIl19LCJzdWIiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MDM4MWYxNTgwZjMzZDM1YjViMGRlOTczOTNkMjg2M2RkMzUzNzc2MTY5MzExZGI3OWNmOTcxYTBhZmFmZWEwMTJlIiwibmJmIjoxNjI2MzMwMTQxLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MDIyZTkwZjZmZTg1YjU3NzhmZmI5ODIyZGY0MjU4YTkyNDliYWI4MjhkMDc4NTIxYjRlMjQ3NDVmYmQwNTdkMTg5In0.6_mCgM-tI2KFYQpSapKwl8emnGwiA_Fg0pOZ1K5NTn7NU8AqMybOp91qtEpClEwh92s0fLCNtyvqQphezCA5Eg"
+}

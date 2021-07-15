@@ -1,15 +1,13 @@
 const agentProvider = require("../ethr-registry-lib/agentProvider");
 const StudentDidInfo = require("./entities/StudentDidInfo");
+const fs = require("fs");
 
 const student_DID = 'did:ethr:rinkeby:0x0381f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e'
 const student_number = '202024600'
 const student_name = 'dova'
 const student_phone_number = '010-1234-5678'
 
-const student_DID_publickKey = '0481f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e2b2fe473c5a79e5fa5c02cce301a1edbb644cf886bbf7be0034f32c3834947e5'
-
 const univ_DID = 'did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189'
-const univ_DID_publickKey = "042e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189492f717ad0aa7ab46a09f2d9b8b7b170363bee715cdc4894502eea32b18cec5c"
 
 async function saveStudentDid(){
     agentProvider.setupDB("issuer-local-db.sqlite", StudentDidInfo);
@@ -120,7 +118,9 @@ async function main(){
         
         case 'issue-vc':
             const vc = await issueVerifiableCredential();
-            console.log(vc);
+            fs.writeFile('./verifiableCredential.json', JSON.stringify(vc,null,2), err=>{
+                console.log('success')
+            })
             break;
 
         default:
