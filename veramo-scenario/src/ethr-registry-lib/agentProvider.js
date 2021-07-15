@@ -68,6 +68,10 @@ function getConnection(){
     return dbConnection;
 }
 
+function getRpcUrl(){
+    return 'https://rinkeby.infura.io/v3/' + INFURA_PROJECT_ID
+}
+
 
 function getAgent(){
 
@@ -121,6 +125,7 @@ module.exports.getAgent = getAgent;
 module.exports.Entities = Entities;
 module.exports.setupDB = setupDB;
 module.exports.getConnection = getConnection;
+module.exports.getRpcUrl = getRpcUrl;
 
 /*****************************
  ****** server sections ******

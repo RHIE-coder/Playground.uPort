@@ -1,66 +1,131 @@
-const { createConnection } = require("typeorm");
-
 const agentProvider = require("../ethr-registry-lib/agentProvider");
-
 const StudentDidInfo = require("./entities/StudentDidInfo");
 
-// agentProvider.getAgent("issuer-local-db.sqlite").then(agent=>{
-//     const identity = agent.didManagerCreate()
-//     console.log(`New identity created`)
-//     console.log(identity)
-//     return dbConnection
-// }).then(dbConnection => {
-//     console.log(dbConnection.getRepository())
-// })
+const student_DID = 'did:ethr:rinkeby:0x0381f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e'
+const student_number = '202024600'
+const student_name = 'dova'
+const student_phone_number = '010-1234-5678'
 
-const dbConnection = createConnection({
-    type: 'sqlite',
-    database: "issuer-local-db.sqlite",
-    synchronize: true,
-    logging: ['error', 'info', 'warn'],
-    entities: [...agentProvider.Entities],
-});
+const student_DID_publickKey = '0481f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e2b2fe473c5a79e5fa5c02cce301a1edbb644cf886bbf7be0034f32c3834947e5'
 
-// dbConnection.then((connection)=>{
-//     return connection.getRepository("Identifier")
-//     // return connection.getRepository("Key")
-// }).then(repo=>{
-//     return repo.find();
-// }).then(console.log);
+const univ_DID = 'did:ethr:rinkeby:0x022e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189'
+const univ_DID_publickKey = "042e90f6fe85b5778ffb9822df4258a9249bab828d078521b4e24745fbd057d189492f717ad0aa7ab46a09f2d9b8b7b170363bee715cdc4894502eea32b18cec5c"
 
-
-
-async function main(){
-    await agentProvider.setupDB("issuer-local-db.sqlite", StudentDidInfo);
-    const agent = await agentProvider.getAgent();
-    const identifiers = await agent.didManagerFind();
-    console.log(`There are ${identifiers.length} identifiers`);
-    if (identifiers.length > 0) {
-        identifiers.map((id) => {
-          console.log(id)
-          console.log('..................')
-        })
-    }
+async function saveStudentDid(){
+    agentProvider.setupDB("issuer-local-db.sqlite", StudentDidInfo);
 
     const stuInfo = {
-        did : 'did:ethr:rinkeby:0x02ac02a20c94a19c905fa85b2323257262644ccc5051406c5394dca4caa99441d7',
-        studentNo : '202024600',
-        studentName : 'rhie',
-        studentPhoneNumber : '010-1234-5678'
+        did : student_DID,
+        studentNo : student_number,
+        studentName : student_name,
+        studentPhoneNumber : student_phone_number
     }
 
     const connection = await agentProvider.getConnection()
     const stuRepo = connection.getRepository("StudentDidInfo")
-    stuRepo.save(stuInfo)
-    .then(function(saveStu) {
-        console.log("stuInfo has been saved: ", saveStu);
-        console.log("Now lets load all posts: ");
 
-        return stuRepo.find();
-    })
-    .then(function(allStu) {
-        console.log("All Students: ", allStu);
+    return stuRepo.save(stuInfo)
+}
+
+async function findStudentDid(){
+    agentProvider.setupDB("issuer-local-db.sqlite", StudentDidInfo);
+
+    const connection = await agentProvider.getConnection()
+    const stuRepo = connection.getRepository("StudentDidInfo")
+
+    return stuRepo.find();
+}
+
+async function invokeResolver(){
+    agentProvider.setupDB("issuer-local-db.sqlite");
+    const agent = await agentProvider.getAgent();
+    const doc = await agent.resolveDid({
+        didUrl: student_DID,
     });
+    
+    return doc;
+}
+
+async function issueVerifiableCredential(){
+    agentProvider.setupDB("issuer-local-db.sqlite");
+    const agent = await agentProvider.getAgent();
+
+    const verifiableCredential = await agent.createVerifiableCredential({
+        credential: {
+            issuer : {id : univ_DID},
+            credentialSubject: {
+                id : student_DID,
+                studentNumber : student_number,
+                studentName : student_name,
+                studentPhoneNumber: student_phone_number,
+                status : 'graduated'
+            }
+        },
+        proofFormat: 'jwt',
+        save: false
+    })
+
+    return verifiableCredential;
+}
+
+async function main(){
+    const exeOption = process.argv[2];
+
+    if(!exeOption){
+        throw new Error('the option is not exists');
+    }
+
+    agentProvider.setupDB("issuer-local-db.sqlite");
+    const agent = await agentProvider.getAgent();
+
+    switch(exeOption){
+        case 'create-did':
+            const identity = await agent.didManagerCreate()
+            console.log(`New identity created`)
+            console.log(identity)
+            break;
+
+        case 'check-did':
+            console.log(`now check database`)
+            const identifiers = await agent.didManagerFind();
+            console.log(`There are ${identifiers.length} identifiers`);
+            if (identifiers.length > 0) {
+                identifiers.map((id) => {
+                  console.log(id)
+                  console.log('..................')
+                })
+            }
+            break;
+
+        case 'save-student-did':
+            const savedInfo = await saveStudentDid()
+            console.log("stuInfo has been saved: ", savedInfo);
+            break;
+
+        case 'find-student-did':
+            const studentDidInfos = await findStudentDid();
+            console.log(`There are ${studentDidInfos.length} studentDidInfos`);
+            if (studentDidInfos.length > 0) {
+                studentDidInfos.map((id) => {
+                    console.log(id)
+                    console.log('..................')
+                })
+            }
+            break;
+
+        case 'did-resolver':
+            const doc = await invokeResolver();
+            console.log(doc);
+            break;
+        
+        case 'issue-vc':
+            const vc = await issueVerifiableCredential();
+            console.log(vc);
+            break;
+
+        default:
+            throw new Error(`the option is not correct'`);
+    }
 }
 
 main().catch(console.log)
@@ -95,22 +160,3 @@ main().catch(console.log)
 // app.listen(port, () => {
 //   console.log(`Example app listening at http://localhost:${port}`)
 // })
-
-// dbConnection.then(connection=>{
-//     return connection.getRepository("Key")
-// }).then(repo=>{
-//     return repo.findOne({kid: '0445b9df6db7d370b6dcd7a8dd46923937df392831ee17465555e58c2fedef0891c4537debaf4016ad0e65407008d3892f25d18502a9d4d0e4aa0e8b5e492e4354'});
-// }).then(console.log);
-
-
-
-// agentProvider.getAgent("issuer-local-db.sqlite").then(agent=>{
-//     const identity = agent.didManagerCreate()
-//     console.log(`New identity created`)
-//     console.log(identity)
-//     return dbConnection
-// }).then(dbConnection => {
-//     console.log(dbConnection.getRepository())
-// })
-
-
