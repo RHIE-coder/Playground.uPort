@@ -118,7 +118,7 @@ async function main(){
         
         case 'issue-vc':
             const vc = await issueVerifiableCredential();
-            fs.writeFile('./verifiableCredential.json', JSON.stringify(vc,null,2), err=>{
+            fs.writeFile('../dova/verifiableCredential.json', JSON.stringify(vc,null,2), err=>{
                 console.log('success')
             })
             break;
