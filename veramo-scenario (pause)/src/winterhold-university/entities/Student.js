@@ -1,5 +1,5 @@
 const EntitySchema = require("typeorm").EntitySchema;
-
+// 사용하지 않았음
 module.exports = new EntitySchema({
     name: "Student", 
     tableName: "Student", 

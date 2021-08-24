@@ -46,7 +46,7 @@ async function test(){
     console.log('success')
   })
   console.log(JSON.stringify(verificationResponseByStu,null,2))
-  
+
 }
 
 test().catch(console.log)

@@ -35,7 +35,7 @@ Please be advised that ongoing support for all uPort libraries will be deprecate
 
 # Serto 개요
 
-ConsenSys가 2015년부터 uPort Project를 셋팅하였다. 이는 실험적인 단계였으며 이제는 그 명맥을 Serto가 이어나간다.
+ConsenSys가 2015년부터 uPort Project를 셋팅하였다. 이는 실험적 단계였으며 이제는 그 명맥을 Serto가 이어나간다.
 
 현재 Serto는 다음과 같이 프레임워크 및 오픈소스를 만들거나 참여하였다.
 
@@ -215,8 +215,6 @@ npm install
 <br><br><br>
 
 ## - Implementation
-
-###### `/`
 
 ##### .env
 

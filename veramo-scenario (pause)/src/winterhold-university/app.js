@@ -2,6 +2,7 @@ const agentProvider = require("../ethr-registry-lib/agentProvider");
 const StudentDidInfo = require("./entities/StudentDidInfo");
 const fs = require("fs");
 
+//Hard Coding
 const student_DID = 'did:ethr:rinkeby:0x0381f1580f33d35b5b0de97393d2863dd353776169311db79cf971a0afafea012e'
 const student_number = '202024600'
 const student_name = 'dova'
@@ -129,34 +130,3 @@ async function main(){
 }
 
 main().catch(console.log)
-
-// const express = require('express');
-// const app = express();
-// const path = require('path');
-// const multer = require('multer');
-// const mongoose = require('mongoose');
-// const { Schema } = require('mongoose');
-// const cookieParser = require('cookie-parser');
-// const expressSession = require('express-session');
-// const port = 3000;
-
-// app.use('/static', express.static(path.join(__dirname, 'public')));
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-
-// app.use(cookieParser());
-
-// app.use(expressSession({
-//   secret:"my secret key",
-//   resave: true,
-//   saveUninitialized: true
-// }));
-
-// app.all('*', (req,res)=>{
-//   res.status(404).send("<h1>페이지 없음</h1>");
-// });
-
-// app.listen(port, () => {
-//   console.log(`Example app listening at http://localhost:${port}`)
-// })
